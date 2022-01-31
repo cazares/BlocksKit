@@ -143,7 +143,7 @@ static NSString *selectorDescribe(const void *item1)
 	A2BlockInvocation *innerInv = nil;
 	if ((innerInv = [self.invocationsBySelectors bk_objectForSelector:selector])) {
 		[innerInv invokeWithInvocation:outerInv];
-	} else if ([self.realDelegate respondsToSelector:selector]) {
+	} else if ([self.realDelegate respondsToSelector:selector] && [self.realDelegate isKindOfClass:A2DynamicDelegate.class]) {
 		[outerInv invokeWithTarget:self.realDelegate];
 	}
 }
