@@ -6,14 +6,6 @@
 #import "UIView+BlocksKit.h"
 #import "UIGestureRecognizer+BlocksKit.h"
 
-typedef void (^SSNEmptyBlock)();
-
-@interface UIView (BlocksKit)
-
-@property (nonatomic, strong) SSNEmptyBlock bkWhenTappedBlock;
-
-@end
-
 @implementation UIView (BlocksKit)
 
 - (void)bk_whenTouches:(NSUInteger)numberOfTouches tapped:(NSUInteger)numberOfTaps handler:(void (^)(void))block
@@ -43,18 +35,7 @@ typedef void (^SSNEmptyBlock)();
 
 - (void)bk_whenTapped:(void (^)(void))block
 {
-    self.bkWhenTappedBlock = block;
-    if ([UIView isKindOfClass:UIButton.class]) {
-        UIButton *button = (UIButton *)self;
-        [button addTarget:self.superview action:@selector(onBkWhenTapped) forControlEvents:UIControlEventTouchUpInside];
-    }
-}
-
-- (void)onBkWhenTapped {
-    if (!self.bkWhenTappedBlock) {
-        return;
-    }
-    self.bkWhenTappedBlock();
+	[self bk_whenTouches:1 tapped:1 handler:block];
 }
 
 - (void)bk_whenDoubleTapped:(void (^)(void))block
